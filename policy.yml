@@ -2,17 +2,16 @@ policies:
   - name: aws-vpcs
     resource: aws.vpc
 
-  - name: owner-tag-compliance
-    mode:
-      type: periodic
-      schedule: rate(1 hour)
-      role: arn:aws:iam::223015864531:role/custodian-tag-compliance-role
+  - name: ec2-require-encrypted-volumes
     resource: ec2
-    description: |
-      Schedule a resource that does not meet tag compliance policies
-      to be stopped in four days.
+    mode:
+      type: ec2-instance-state
+      events:
+      - pending
     filters:
-      - State.Name: running
-      - "tag:Owner": absent
+      - type: ebs
+        key: Encrypted
+        value: False
     actions:
-      - stop
+      - mark
+      - terminate
