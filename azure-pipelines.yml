@@ -33,4 +33,4 @@ jobs:
           scriptType: 'inline'
           inlineScript: |
             custodian run -s . policy.yml
-        displayName: Performing Dry Run
+        displayName: Deploying Policy and Lambdas
