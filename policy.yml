@@ -1,3 +1,18 @@
 policies:
   - name: aws-vpcs
     resource: aws.vpc
+
+- name: owner-tag-compliance
+    mode:
+      type: periodic
+      schedule: rate(1 hour)
+      role: arn:aws:iam::223015864531:role/custodian-tag-compliance-role
+    resource: ec2
+    description: |
+      Schedule a resource that does not meet tag compliance policies
+      to be stopped in four days.
+    filters:
+      - State.Name: running
+      - "tag:Owner": absent
+    actions:
+      - stop
