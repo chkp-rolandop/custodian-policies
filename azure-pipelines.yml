@@ -18,5 +18,11 @@ jobs:
         displayName: Install custodian
       - script: custodian validate policy.yml
         displayName: Validate policy file
-      - script: custodian run --dryrun -s . policy.yml
+      - task: AWSShellScript@1
+        inputs:
+          awsCredentials: 'rolandop-cp'
+          regionName: $(AWS_REGION)
+          scriptType: 'inline'
+          inlineScript: |
+            custodian run --dryrun -s . policy.yml
         displayName: Performing Dry Run
