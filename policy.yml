@@ -6,6 +6,7 @@ policies:
     resource: ec2
     mode:
       type: ec2-instance-state
+      role: arn:aws:iam::223015864531:role/custodian-tag-compliance-role
       events:
       - pending
     filters:
